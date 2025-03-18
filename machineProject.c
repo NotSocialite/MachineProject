@@ -41,11 +41,11 @@ int getArrowKey() //scans input from keyboard and returns an integer
             default: return 0; // Invalid arrow
         }
     }
-    else if(ch == 13)
+    else if(ch == 13) //enter key
     { 
         return 5;
     }
-    else if(ch == 27)
+    else if(ch == 27) //escape key
     {
         return 6;
     }
@@ -333,9 +333,6 @@ void selectOptions(int *gamemode, int *rounds) //user inputs options
             input = 0;
             while(input != 5)
             {
-                // iClear(0, 10, 100, 1);
-                // printf("%d\n", gameMode);
-
                 iClear(0, 2, 1, 1);
                 iClear(12, 2, 1, 1);
                 iClear(0, 3, 1, 1);
@@ -753,12 +750,12 @@ void startGame(int gamemode, int rounds, int *menuPos) //starts the game
 
     iClear(0, 3, 100, 3);
     
-    printf("\bcode colors: ");
-    for(i = 0; i < size; i++)
-    {
-    	printf("%c ", colors [code [i]]);
-    }
-    printf("\n");
+    // printf("\bcode colors: ");
+    // for(i = 0; i < size; i++)
+    // {
+    // 	printf("%c ", colors [code [i]]);
+    // }
+    // printf("\n");
     // printf("\n");
 
     for (i = 0; i < size; i++)
@@ -784,11 +781,6 @@ void startGame(int gamemode, int rounds, int *menuPos) //starts the game
             textColor(guess [i]);
             drawSymbol(0);
             printf("  ");
-            // if(i != size - 1)
-            // {
-            //     iSetColor(I_COLOR_WHITE);
-            //     printf("|");
-            // }
         }
         iSetColor(I_COLOR_WHITE);
 
