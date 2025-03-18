@@ -28,7 +28,7 @@ int load_time()
     return playTime;
 }
 
-int getArrowKey() 
+int getArrowKey() //scans input from keyboard and returns an integer
 {
     int ch = _getch();
     if (ch == 0 || ch == 224) {
@@ -52,7 +52,7 @@ int getArrowKey()
     return 0; // Not an arrow key
 }
 
-void drawSymbol(int draw)
+void drawSymbol(int draw) //outputs a symbol from unicode
 {
     SetConsoleOutputCP(CP_UTF8); // enable unicode
     if (draw == 0) //circle
@@ -178,7 +178,7 @@ void displayOptions() //displays options interface
     printf("------------------------\n");
 }
 
-void displayEndScreen()
+void displayEndScreen() //displays the ending screen
 {
     int i;
     int j;
@@ -411,7 +411,7 @@ void selectOptions(int *gamemode, int *rounds) //user inputs options
     *rounds = numOfRounds;
 }
 
-int codeSize(int size)
+int codeSize(int size) //tweak code length
 {
     int input;
 
@@ -526,7 +526,7 @@ void textColor(char colorSet) //changes text color based on the input
     }
 }
 
-int confirmMenu()
+int confirmMenu() //function for an escape sequence during the game
 {
     int input;
     int goMainMenu;
@@ -660,10 +660,11 @@ void startGame(int gamemode, int rounds, int *menuPos) //starts the game
             code [i] = 0;
         }
 
-        iSetColor(I_COLOR_RED);
         for (i = 0; i < size; i++)
         {
-            printf("%c  ", 254);
+            textColor(code [i]);
+            drawSymbol(0);
+            printf("  ");
         }
         iSetColor(I_COLOR_WHITE);
 
@@ -706,7 +707,7 @@ void startGame(int gamemode, int rounds, int *menuPos) //starts the game
                 case 5:
                     iClear(codeClear, 3, 1, 1);    
                     textColor(code [codePos]);
-                    printf("%c", 254);
+                    drawSymbol(0);
                     iSetColor(I_COLOR_WHITE);
                     break;
             }
@@ -748,19 +749,16 @@ void startGame(int gamemode, int rounds, int *menuPos) //starts the game
                 code [codePos] = 0;
             }
         }
-        for (i = 0; i < size; i++)
-        {
-            code [i] = colors [code [i]];
-        }
     }
 
     iClear(0, 3, 100, 3);
     
-    // printf("\bcode colors: ");
-    // for(i = 0; i < size; i++)
-    // {
-    // 	printf("%c ", colors [code [i]]);
-    // }
+    printf("\bcode colors: ");
+    for(i = 0; i < size; i++)
+    {
+    	printf("%c ", colors [code [i]]);
+    }
+    printf("\n");
     // printf("\n");
 
     for (i = 0; i < size; i++)
@@ -1038,8 +1036,6 @@ int main()
 
         while(input != 5)
         {
-            // iClear(0, 10, 100, 1);
-            // printf("%d\n", selectMenu);
             iHideCursor();
 
             iClear(9, 5, 1, 1);
@@ -1094,9 +1090,6 @@ int main()
 	    if (selectMenu == 1)
 	    {
             startGame(gamemode, rounds, &menuPos);
-    		/*printf("\nPlaying!\n");
-            printf("Game Mode: %d\n", gamemode);
-            printf("Number of rounds: %d\n", rounds);*/
 
             printf("\nGo back to Main Menu?\n");
             printf(" Yes    No");
@@ -1105,9 +1098,6 @@ int main()
             goMainMenu = 0;
             while(input != 5)
             {
-                // iClear(0, 10, 100, 1);
-                // printf("%d\n", gameMode);
-
                 iClear(0, menuPos, 1, 1);
                 iClear(7, menuPos, 1, 1);
 
@@ -1135,15 +1125,15 @@ int main()
                 goMainMenu = goMainMenu % 2;
             }
 
-			if (goMainMenu != 0)
-			{
-				displayEndScreen();
-				quit = 1;
-			}
-			else if (goMainMenu == 0)
-			{
-				iClear(0, 8, 100, 30);
-			}
+            if (goMainMenu != 0)
+            {
+                displayEndScreen();
+                quit = 1;
+            }
+            else if (goMainMenu == 0)
+            {
+                iClear(0, 8, 100, 30);
+            }
 	    }
 	    else if(selectMenu == 2)
     	{
